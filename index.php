@@ -1,3 +1,37 @@
+<?php
+$password_length = isset($_GET['password']) && is_numeric($_GET['password']) ? (int) $_GET['password'] : 0;
+
+function passwordGenerator($password_length)
+{
+    $numbers = '1234567890';
+    $letters = 'abcdefghijklmnopqrstuwyzABCDEFGHIJKLMNOPQRSTUWYZ';
+    $symbols = '!@#$%^&*()';
+    $characters_pool = '';
+    if (isset($_GET['letters']) && $_GET['letters'] == 'on') {
+        $characters_pool .= $letters;
+    }
+    ;
+    if (isset($_GET['numbers']) && $_GET['numbers'] == 'on') {
+        $characters_pool .= $numbers;
+    }
+    ;
+    if (isset($_GET['symbols']) && $_GET['symbols'] == 'on') {
+        $characters_pool .= $symbols;
+    }
+    ;
+
+    if (empty($characters_pool)) {
+        return ' ';
+    }
+
+    $password = '';
+    for ($i = 0; $i < $password_length; $i++) {
+        $password .= $characters_pool[random_int(0, strlen($characters_pool) - 1)];
+    }
+    return $password;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,6 +60,7 @@
             <div class="mb-3 p-0 form-check d-flex justify-content-between">
                 <label class="form-check-label" for="exampleCheck1">Consenti ripetizioni di più caratteri:</label>
                 <div class="d-flex flex-column justify-content-start">
+
                     <div>
                         <input type="radio" name="repeat" value="yes" id="repeat">
                         <label for="repeat">Si</label>
@@ -46,8 +81,11 @@
                         <input type="checkbox" name="symbols">
                         <label for="">Simboli</label>
                     </div>
-
                 </div>
+
+            </div>
+            <div>
+                <h2>Password generata: <?php echo passwordGenerator($password_length) ?></h2>
             </div>
         </div>
 
