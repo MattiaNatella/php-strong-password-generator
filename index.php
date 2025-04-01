@@ -1,7 +1,18 @@
 <?php
 
-require_once './functions.php'
-    ?>
+require_once './functions.php';
+
+if ($password != "") {
+
+    session_start();
+    //salviamo la password in una variabile di sessione
+    $_SESSION["password"] = $password;
+    //dirottiamo l'utente alla pagina result.php
+    header("Location: ./result.php");
+}
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,7 +34,8 @@ require_once './functions.php'
 
             <div class="mb-3 gap-5 d-flex justify-content-between ">
                 <label for="exampleInputPassword1" class="form-label">Lunghezza Password:</label>
-                <input type="text" class="form-control w-25" id="exampleInputPassword1" name="password">
+                <input type="number" class="form-control w-25" id="exampleInputPassword1" value="5" name="length"
+                    min="5" max="20">
             </div>
 
             <!-- INPUT  -->
@@ -54,13 +66,13 @@ require_once './functions.php'
                 </div>
 
             </div>
-            <div>
-                <h2>Password generata: <?php echo passwordGenerator($password_length) ?></h2>
-            </div>
         </div>
 
         <button type="submit" class="btn btn-primary">Invia</button>
         <button type="reset" class="btn btn-dark">Annulla</button>
+        <?php
+        echo $password;
+        ?>
     </form>
 </body>
 

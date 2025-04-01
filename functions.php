@@ -1,33 +1,33 @@
 <?php
-$password_length = isset($_GET['password']) && is_numeric($_GET['password']) ? (int) $_GET['password'] : 0;
+$password = "";
+if (isset($_GET['length'])) {
 
-function passwordGenerator($password_length)
-{
     $numbers = '1234567890';
     $letters = 'abcdefghijklmnopqrstuwyzABCDEFGHIJKLMNOPQRSTUWYZ';
     $symbols = '!@#$%^&*()';
-    $characters_pool = '';
-    if (isset($_GET['letters']) && $_GET['letters'] == 'on') {
-        $characters_pool .= $letters;
-    }
-    ;
-    if (isset($_GET['numbers']) && $_GET['numbers'] == 'on') {
-        $characters_pool .= $numbers;
-    }
-    ;
-    if (isset($_GET['symbols']) && $_GET['symbols'] == 'on') {
-        $characters_pool .= $symbols;
-    }
-    ;
+    $allChars = "";
 
-    if (empty($characters_pool)) {
-        return ' ';
+    if (isset($_GET['numbers']) && $_GET['numbers']) {
+        $allChars .= $numbers;
+    }
+    if (isset($_GET['letters']) && $_GET['letters']) {
+        $allChars .= $letters;
+    }
+    if (isset($_GET['symbols']) && $_GET['symbols']) {
+        $allChars .= $symbols;
     }
 
-    $password = '';
-    for ($i = 0; $i < $password_length; $i++) {
-        $password .= $characters_pool[random_int(0, strlen($characters_pool) - 1)];
+    for ($i = 0; $i < $_GET['length']; $i++) {
+
+        //prendo un carattere randomico dalla stringa
+        $randomPosition = rand(0, strlen($allChars) - 1);
+        $randomCharacter = substr($allChars, $randomPosition, 1);
+
+        //aggiungere questo carattere alla stringa delle pasword per tot volte
+        $password .= $randomCharacter;
+
     }
-    return $password;
 }
+
+
 ?>
